@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --primary: #0b4f3f;
+  --primary-dark: #082f26;
+  --cream: #f5f0e4;
+  --gold: #c68a2e;
+  --gold-dark: #9c6e20;
+  --ink: #1c2620;
+  --sage: #e7efe9;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: var(--font-jakarta), sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+}
+
+.font-display {
+  font-family: var(--font-fraunces), serif;
+}
+
+.hero-pattern {
+  background-color: var(--primary);
+  background-image:
+    radial-gradient(
+      circle at 12% 20%,
+      rgba(255, 255, 255, 0.06) 0,
+      rgba(255, 255, 255, 0.06) 2px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 68% 55%,
+      rgba(255, 255, 255, 0.05) 0,
+      rgba(255, 255, 255, 0.05) 2px,
+      transparent 2px
+    ),
+    radial-gradient(
+      circle at 88% 15%,
+      rgba(255, 255, 255, 0.05) 0,
+      rgba(255, 255, 255, 0.05) 2px,
+      transparent 2px
+    ),
+    linear-gradient(
+      160deg,
+      var(--primary) 0%,
+      var(--primary-dark) 100%
+    );
+  background-size: 46px 46px, 60px 60px, 38px 38px, cover;
+}
+
+.placeholder-tile {
+  background:
+    linear-gradient(
+      135deg,
+      var(--sage) 0%,
+      #dce9df 55%,
+      #f1e4c6 100%
+    );
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rise-in {
+  animation: riseIn 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.rise-in.d1 {
+  animation-delay: 0.08s;
+}
+
+.rise-in.d2 {
+  animation-delay: 0.18s;
+}
+
+.rise-in.d3 {
+  animation-delay: 0.28s;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }

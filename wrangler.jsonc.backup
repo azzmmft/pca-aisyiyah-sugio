@@ -1,0 +1,10 @@
+{
+  "name": "pca-aisyiyah-sugio",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "pca-aisyiyah-sugio-db",
+      "database_id": "6b26c818-4b27-4ba2-ac08-8d20ef72ec10"
+    }
+  ]
+}

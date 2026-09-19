@@ -19,7 +19,7 @@ const products = [
     ),
   },
   {
-    name: "Sambal Bawang Khas Sugio",
+    name: "Sambal balado",
     price: "Rp 20.000 / botol",
     icon: (
       <svg

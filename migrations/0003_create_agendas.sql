@@ -1,0 +1,11 @@
+-- Migration number: 0003 	 2026-09-21T03:04:53.763Z
+
+CREATE TABLE IF NOT EXISTS agendas (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  description TEXT,
+  date TEXT NOT NULL,
+  location TEXT,
+  image_url TEXT,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);

@@ -1,10 +1,18 @@
+import { redirect } from "next/navigation";
 import AdminSidebar from "./component/AdminSidebar";
+import { getCurrentAdmin } from "@/lib/auth";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const admin = await getCurrentAdmin();
+
+  if (!admin) {
+    redirect("/admin/login");
+  }
+
   return (
     <div className="min-h-screen bg-[#F5F0E4]">
       <AdminSidebar />

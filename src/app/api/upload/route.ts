@@ -7,17 +7,24 @@ const ALLOWED_TYPES = [
   "image/webp",
 ];
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+
+const ALLOWED_FOLDERS = [
+  "products",
+  "organization-structure",
+  "organization-members",
+  "activities",
+  "gallery",
+];
 
 export async function POST(request: Request) {
   try {
-    const { env } = await getCloudflareContext({
-      async: true,
-    });
+    const { env } = await getCloudflareContext({ async: true });
 
     const formData = await request.formData();
 
     const file = formData.get("file");
+    const folderValue = formData.get("folder");
 
     if (!(file instanceof File)) {
       return NextResponse.json(
@@ -29,7 +36,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validasi tipe file
     if (!ALLOWED_TYPES.includes(file.type)) {
       return NextResponse.json(
         {
@@ -40,7 +46,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Validasi ukuran
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
         {
@@ -51,7 +56,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // Ambil ekstensi
+    const folder =
+      typeof folderValue === "string" &&
+      ALLOWED_FOLDERS.includes(folderValue)
+        ? folderValue
+        : "products";
+
     const extension =
       file.type === "image/jpeg"
         ? "jpg"
@@ -59,20 +69,14 @@ export async function POST(request: Request) {
           ? "png"
           : "webp";
 
-    // Nama file unik
-    const fileName = `products/${crypto.randomUUID()}.${extension}`;
+    const fileName = `${folder}/${crypto.randomUUID()}.${extension}`;
 
-    // Upload ke R2
-    const uploaded = await env.R2_BUCKET.put(
-      fileName,
-      file,
-      {
-        httpMetadata: {
-          contentType: file.type,
-          cacheControl: "public, max-age=31536000, immutable",
-        },
-      }
-    );
+    const uploaded = await env.R2_BUCKET.put(fileName, file, {
+      httpMetadata: {
+        contentType: file.type,
+        cacheControl: "public, max-age=31536000, immutable",
+      },
+    });
 
     if (!uploaded) {
       throw new Error("Upload ke R2 gagal");

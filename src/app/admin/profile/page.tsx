@@ -33,7 +33,7 @@ export default function AdminProfilePage() {
           throw new Error("Gagal mengambil data profile");
         }
 
-        const data = await response.json();
+        const data = (await response.json()) as Record<string, any>;
 
         if (!data.success) {
           throw new Error(
@@ -81,7 +81,7 @@ export default function AdminProfilePage() {
         }),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as Record<string, any>;
 
       if (!response.ok || !data.success) {
         throw new Error(

@@ -35,7 +35,7 @@ export default function AdminAgendasPage() {
       setLoading(true);
 
       const response = await fetch("/api/agendas");
-      const result = await response.json();
+      const result = (await response.json()) as Record<string, any>;
 
       if (!response.ok || !result.success) {
         throw new Error(
@@ -126,7 +126,7 @@ export default function AdminAgendasPage() {
           }),
         });
 
-        const result = await response.json();
+        const result = (await response.json()) as Record<string, any>;
 
         if (!response.ok || !result.success) {
           throw new Error(
@@ -144,7 +144,7 @@ export default function AdminAgendasPage() {
           body: JSON.stringify(form),
         });
 
-        const result = await response.json();
+        const result = (await response.json()) as Record<string, any>;
 
         if (!response.ok || !result.success) {
           throw new Error(
@@ -189,7 +189,7 @@ export default function AdminAgendasPage() {
         body: JSON.stringify({ id }),
       });
 
-      const result = await response.json();
+      const result = (await response.json()) as Record<string, any>;
 
       if (!response.ok || !result.success) {
         throw new Error(

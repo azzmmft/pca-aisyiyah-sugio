@@ -25,7 +25,7 @@ export default function TestUploadPage() {
         body: formData,
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as Record<string, any>;
 
       if (!response.ok || !data.success) {
         throw new Error(data.error || "Upload gagal");

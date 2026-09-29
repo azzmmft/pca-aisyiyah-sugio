@@ -34,7 +34,7 @@ export default function VisiMisiAdminPage() {
           throw new Error("Gagal mengambil data visi dan misi");
         }
 
-        const data = await response.json();
+        const data = (await response.json()) as Record<string, any>;
 
         if (!data.success || !data.section) {
           throw new Error(
@@ -83,7 +83,7 @@ export default function VisiMisiAdminPage() {
         }
       );
 
-      const data = await response.json();
+      const data = (await response.json()) as Record<string, any>;
 
       if (!response.ok || !data.success) {
         throw new Error(
@@ -117,7 +117,7 @@ export default function VisiMisiAdminPage() {
 
   if (loading) {
     return (
-      <div className="max-w-4xl">
+      <div className=" max-w-4xl">
         <div className="animate-pulse space-y-5">
           <div className="h-8 w-64 rounded bg-[color:var(--primary)]/10" />
           <div className="h-4 w-96 rounded bg-[color:var(--primary)]/10" />

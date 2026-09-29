@@ -38,7 +38,7 @@ export async function PUT(request: Request) {
   try {
     const { env } = await getCloudflareContext({ async: true });
 
-    const body = await request.json();
+    const body = (await request.json()) as Record<string, any>;
 
     const title =
       typeof body.title === "string"

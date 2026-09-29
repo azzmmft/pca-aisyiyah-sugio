@@ -36,7 +36,7 @@ export default function AdminSejarahPage() {
           throw new Error("Gagal mengambil data sejarah");
         }
 
-        const data = await response.json();
+        const data = (await response.json()) as Record<string, any>;
 
         if (!data.success) {
           throw new Error(
@@ -89,7 +89,7 @@ export default function AdminSejarahPage() {
         }
       );
 
-      const data = await response.json();
+      const data = (await response.json()) as Record<string, any>;
 
       if (!response.ok || !data.success) {
         throw new Error(

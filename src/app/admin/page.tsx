@@ -15,63 +15,7 @@ export default function AdminDashboard() {
         </p>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
-        <div className="rounded-2xl bg-white p-6 shadow-sm">
-          <p className="text-sm text-gray-500">
-            Produk
-          </p>
-
-          <p className="mt-2 text-3xl font-bold text-[#082F26]">
-            3
-          </p>
-
-          <p className="mt-1 text-xs text-gray-400">
-            Produk binaan
-          </p>
-        </div>
-
-        <div className="rounded-2xl bg-white p-6 shadow-sm">
-          <p className="text-sm text-gray-500">
-            Agenda
-          </p>
-
-          <p className="mt-2 text-3xl font-bold text-[#082F26]">
-            3
-          </p>
-
-          <p className="mt-1 text-xs text-gray-400">
-            Agenda mendatang
-          </p>
-        </div>
-
-        <div className="rounded-2xl bg-white p-6 shadow-sm">
-          <p className="text-sm text-gray-500">
-            Berita
-          </p>
-
-          <p className="mt-2 text-3xl font-bold text-[#082F26]">
-            0
-          </p>
-
-          <p className="mt-1 text-xs text-gray-400">
-            Artikel dipublikasikan
-          </p>
-        </div>
-
-        <div className="rounded-2xl bg-white p-6 shadow-sm">
-          <p className="text-sm text-gray-500">
-            Galeri
-          </p>
-
-          <p className="mt-2 text-3xl font-bold text-[#082F26]">
-            0
-          </p>
-
-          <p className="mt-1 text-xs text-gray-400">
-            Foto tersimpan
-          </p>
-        </div>
-      </div>
+      
 
       <div className="mt-8 rounded-2xl bg-white p-6 shadow-sm">
         <h2 className="font-serif text-2xl font-bold text-[#082F26]">
@@ -82,7 +26,7 @@ export default function AdminDashboard() {
           Panel ini digunakan untuk mengelola informasi yang
           ditampilkan pada website PCA Aisyiyah Sugio.
           Tambahkan produk, agenda, berita, kegiatan, dan
-          dokumentasi galeri tanpa perlu mengubah kode website.
+          dokumentasi galeri.
         </p>
       </div>
     </div>

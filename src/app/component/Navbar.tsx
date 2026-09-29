@@ -1,24 +1,53 @@
-"use client";
+﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
+const profileMenu = [
+  { label: "Tentang PCA", href: "/profil" },
+  { label: "Sejarah", href: "/profil/sejarah" },
+  { label: "Visi & Misi", href: "/profil/visi-misi" },
+  {
+    label: "Struktur Organisasi",
+    href: "/profil/struktur-organisasi",
+  },
+  { label: "Kepengurusan", href: "/profil/kepengurusan" },
+  { label: "Ranting", href: "/profil/ranting" },
+];
+
+const navLinkClass =
+  "relative text-sm font-medium text-[color:var(--ink)]/75 transition-all duration-200 hover:text-[color:var(--primary)] after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-[color:var(--primary)] after:transition-transform after:duration-200 hover:after:scale-x-100";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    onScroll();
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   const closeMenu = () => {
     setMenuOpen(false);
+    setProfileOpen(false);
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-black/10 bg-[color:var(--cream)]/95 backdrop-blur">
+    <header
+      className={`sticky top-0 z-50 border-b transition-all duration-300 ${
+        scrolled
+          ? "border-[color:var(--primary)]/10 bg-[color:var(--cream)]/80 shadow-[0_14px_40px_rgba(8,47,38,0.08)] backdrop-blur-xl"
+          : "border-black/5 bg-[color:var(--cream)]/80 backdrop-blur-md"
+      }`}
+    >
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <div className="flex h-20 items-center justify-between">
-          <a
-            href="#beranda"
-            onClick={closeMenu}
-            className="flex items-center gap-3"
-          >
-            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--primary)] font-display text-lg text-[color:var(--cream)]">
+          <Link href="/#beranda" onClick={closeMenu} className="flex items-center gap-3">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[color:var(--primary)] font-display text-lg text-[color:var(--cream)] shadow-[0_10px_20px_rgba(11,79,63,0.2)]">
               PCA
             </span>
 
@@ -27,69 +56,94 @@ export default function Navbar() {
                 Aisyiyah Sugio
               </span>
 
-              <span className="block text-[11px] tracking-wide text-[color:var(--ink)]/60">
-                Pimpinan Cabang Aisyiyah
+              <span className="block text-[11px] tracking-[0.18em] text-[color:var(--ink)]/60 uppercase">
+                Pimpinan Cabang
               </span>
             </span>
-          </a>
+          </Link>
 
-          {/* DESKTOP NAVIGATION */}
-          <nav className="hidden items-center gap-8 text-sm font-medium text-[color:var(--ink)]/80 md:flex">
-            <a
-              href="#beranda"
-              className="transition-colors hover:text-[color:var(--primary)]"
-            >
+          <nav className="hidden items-center gap-7 md:flex">
+            <Link href="/#beranda" className={`${navLinkClass} relative`}>
               Beranda
-            </a>
+            </Link>
 
-            <a
-              href="#profil"
-              className="transition-colors hover:text-[color:var(--primary)]"
+            <div
+              className="relative"
+              onMouseEnter={() => setProfileOpen(true)}
+              onMouseLeave={() => setProfileOpen(false)}
             >
-              Profil
-            </a>
+              <button
+                type="button"
+                onClick={() => setProfileOpen((prev) => !prev)}
+                className={`${navLinkClass} relative flex items-center gap-1.5`}
+                aria-expanded={profileOpen}
+              >
+                Profil
 
-            <a
-              href="#agenda"
-              className="transition-colors hover:text-[color:var(--primary)]"
-            >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-4 w-4 transition-transform duration-200 ${
+                    profileOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="m6 9 6 6 6-6"
+                  />
+                </svg>
+              </button>
+
+              <div
+                className={`absolute left-1/2 top-full z-50 w-60 -translate-x-1/2 pt-3 transition-all duration-250 ${
+                  profileOpen
+                    ? "visible translate-y-0 opacity-100"
+                    : "invisible -translate-y-2 opacity-0"
+                }`}
+              >
+                <div className="overflow-hidden rounded-[1.4rem] border border-black/10 bg-[color:var(--cream)] p-2 shadow-[0_20px_45px_rgba(12,38,30,0.18)]">
+                  {profileMenu.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMenu}
+                      className="block rounded-xl px-4 py-2.5 text-sm text-[color:var(--ink)]/75 transition-all duration-200 hover:bg-[color:var(--sage)] hover:text-[color:var(--primary)]"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Link href="/#agenda" className={`${navLinkClass} relative`}>
               Agenda
-            </a>
-
-            <a
-              href="#produk"
-              className="transition-colors hover:text-[color:var(--primary)]"
-            >
+            </Link>
+            <Link href="/#produk" className={`${navLinkClass} relative`}>
               Produk
-            </a>
-
-            <a
-              href="#kegiatan"
-              className="transition-colors hover:text-[color:var(--primary)]"
-            >
+            </Link>
+            <Link href="/#kegiatan" className={`${navLinkClass} relative`}>
               Kegiatan
-            </a>
-
-            <a
-              href="#galeri"
-              className="transition-colors hover:text-[color:var(--primary)]"
-            >
+            </Link>
+            <Link href="/berita" className={`${navLinkClass} relative`}>
+              Berita
+            </Link>
+            <Link href="/galeri" className={`${navLinkClass} relative`}>
               Galeri
-            </a>
-
-            <a
-              href="#kontak"
-              className="transition-colors hover:text-[color:var(--primary)]"
-            >
+            </Link>
+            <Link href="/#kontak" className={`${navLinkClass} relative`}>
               Kontak
-            </a>
+            </Link>
           </nav>
 
-          {/* MOBILE MENU BUTTON */}
           <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="p-2 text-[color:var(--primary-dark)] md:hidden"
-            aria-label="Buka menu"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="rounded-full border border-[color:var(--primary)]/10 bg-white/30 p-2 text-[color:var(--primary-dark)] md:hidden"
+            aria-label={menuOpen ? "Tutup menu" : "Buka menu"}
             aria-expanded={menuOpen}
           >
             {menuOpen ? (
@@ -101,11 +155,7 @@ export default function Navbar() {
                 stroke="currentColor"
                 strokeWidth="1.8"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18L18 6M6 6l12 12"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
               </svg>
             ) : (
               <svg
@@ -116,41 +166,83 @@ export default function Navbar() {
                 stroke="currentColor"
                 strokeWidth="1.8"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M4 7h16M4 12h16M4 17h16"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" d="M4 7h16M4 12h16M4 17h16" />
               </svg>
             )}
           </button>
         </div>
 
-        {/* MOBILE NAVIGATION */}
         <div
           className={`overflow-hidden transition-all duration-300 md:hidden ${
-            menuOpen ? "max-h-96" : "max-h-0"
+            menuOpen ? "max-h-[720px] pb-4" : "max-h-0"
           }`}
         >
-          <nav className="flex flex-col gap-1 pb-5 text-sm font-medium text-[color:var(--ink)]/80">
-            {[
-              ["Beranda", "#beranda"],
-              ["Profil", "#profil"],
-              ["Agenda", "#agenda"],
-              ["Produk", "#produk"],
-              ["Kegiatan", "#kegiatan"],
-              ["Galeri", "#galeri"],
-              ["Kontak", "#kontak"],
-            ].map(([label, href]) => (
-              <a
-                key={label}
-                href={href}
-                onClick={closeMenu}
-                className="border-b border-black/5 py-2"
+          <nav className="flex flex-col gap-1 text-sm font-medium text-[color:var(--ink)]/80">
+            <Link href="/#beranda" onClick={closeMenu} className="rounded-xl border-b border-black/5 px-2 py-3 transition-colors hover:text-[color:var(--primary)]">
+              Beranda
+            </Link>
+
+            <div className="rounded-xl border-b border-black/5 px-2">
+              <button
+                type="button"
+                onClick={() => setProfileOpen((prev) => !prev)}
+                className="flex w-full items-center justify-between py-3 text-left transition-colors hover:text-[color:var(--primary)]"
+                aria-expanded={profileOpen}
               >
-                {label}
-              </a>
-            ))}
+                <span>Profil</span>
+
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`h-4 w-4 transition-transform duration-200 ${
+                    profileOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+
+              <div
+                className={`overflow-hidden transition-all duration-300 ${
+                  profileOpen ? "max-h-96 pb-2" : "max-h-0"
+                }`}
+              >
+                <div className="ml-3 border-l border-[color:var(--primary)]/20 pl-4">
+                  {profileMenu.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={closeMenu}
+                      className="block py-2.5 text-sm text-[color:var(--ink)]/65 transition-colors hover:text-[color:var(--primary)]"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <Link href="/#agenda" onClick={closeMenu} className="rounded-xl border-b border-black/5 px-2 py-3 transition-colors hover:text-[color:var(--primary)]">
+              Agenda
+            </Link>
+            <Link href="/#produk" onClick={closeMenu} className="rounded-xl border-b border-black/5 px-2 py-3 transition-colors hover:text-[color:var(--primary)]">
+              Produk
+            </Link>
+            <Link href="/#kegiatan" onClick={closeMenu} className="rounded-xl border-b border-black/5 px-2 py-3 transition-colors hover:text-[color:var(--primary)]">
+              Kegiatan
+            </Link>
+            <Link href="/berita" onClick={closeMenu} className="rounded-xl border-b border-black/5 px-2 py-3 transition-colors hover:text-[color:var(--primary)]">
+              Berita
+            </Link>
+            <Link href="/galeri" onClick={closeMenu} className="rounded-xl border-b border-black/5 px-2 py-3 transition-colors hover:text-[color:var(--primary)]">
+              Galeri
+            </Link>
+            <Link href="/#kontak" onClick={closeMenu} className="rounded-xl px-2 py-3 transition-colors hover:text-[color:var(--primary)]">
+              Kontak
+            </Link>
           </nav>
         </div>
       </div>

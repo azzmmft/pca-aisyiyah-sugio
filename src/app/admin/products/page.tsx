@@ -51,7 +51,7 @@ export default function AdminProductsPage() {
 
       const response = await fetch("/api/products");
 
-      const data = await response.json();
+      const data = (await response.json()) as Record<string, any>;
 
       if (!response.ok || !data.success) {
         throw new Error(
@@ -222,7 +222,7 @@ export default function AdminProductsPage() {
       body: formData,
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as Record<string, any>;
 
     if (!response.ok || !data.success) {
       throw new Error(
@@ -299,7 +299,7 @@ export default function AdminProductsPage() {
         body: JSON.stringify(body),
       });
 
-      const data = await response.json();
+      const data = (await response.json()) as Record<string, any>;
 
       if (!response.ok || !data.success) {
         throw new Error(
@@ -355,7 +355,7 @@ export default function AdminProductsPage() {
         }
       );
 
-      const data = await response.json();
+      const data = (await response.json()) as Record<string, any>;
 
       if (!response.ok || !data.success) {
         throw new Error(
@@ -497,43 +497,105 @@ export default function AdminProductsPage() {
                   Foto Produk
                 </label>
 
-                <div className="rounded-xl border-2 border-dashed border-gray-200 p-5">
+                <div className="rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50/50 p-5 transition hover:border-[#0B4F3F]/30 hover:bg-[#E7EFE9]/20">
+
+                  {/* PREVIEW */}
 
                   {previewUrl ? (
-                    <div className="mb-5">
-                      <img
-                        src={previewUrl}
-                        alt="Preview produk"
-                        className="h-56 w-full rounded-xl object-cover"
-                      />
+                    <div className="mb-5 overflow-hidden rounded-xl border border-gray-100 bg-white">
+                      <div className="relative">
+                        <img
+                          src={previewUrl}
+                          alt="Preview produk"
+                          className="h-56 w-full object-cover"
+                        />
+
+                        {/* Badge */}
+                        <div className="absolute right-3 top-3 rounded-full bg-[#0B4F3F] px-3 py-1.5 text-xs font-semibold text-white shadow-sm">
+                          ✓ Foto dipilih
+                        </div>
+                      </div>
                     </div>
                   ) : (
-                    <div className="mb-5 flex h-48 items-center justify-center rounded-xl bg-[#E7EFE9] text-center">
+                    <div className="mb-5 flex min-h-48 items-center justify-center rounded-xl bg-[#E7EFE9] text-center">
                       <div>
-                        <p className="text-3xl">📷</p>
+                        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white text-2xl shadow-sm">
+                          📷
+                        </div>
 
-                        <p className="mt-2 text-sm font-semibold text-[#0B4F3F]">
-                          Belum ada foto dipilih
+                        <p className="mt-3 text-sm font-semibold text-[#0B4F3F]">
+                          Belum ada foto produk
                         </p>
 
                         <p className="mt-1 text-xs text-gray-500">
-                          JPG, PNG, atau WEBP · Maks. 5 MB
+                          Pilih foto agar produk terlihat lebih menarik.
                         </p>
                       </div>
                     </div>
                   )}
+
+                  {/* CUSTOM FILE BUTTON */}
+
+                  <label
+                    htmlFor="image"
+                    className="group flex cursor-pointer items-center justify-center gap-3 rounded-xl border border-[#0B4F3F]/20 bg-white px-5 py-3.5 text-sm font-semibold text-[#0B4F3F] shadow-sm transition hover:border-[#0B4F3F] hover:bg-[#E7EFE9] hover:shadow-md active:scale-[0.99]"
+                  >
+                    {/* Upload icon */}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      className="h-5 w-5 transition group-hover:-translate-y-0.5"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 16V4"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="m8 8 4-4 4 4"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M5 12v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"
+                      />
+                    </svg>
+
+                    {selectedFile
+                      ? "Ganti Foto Produk"
+                      : "Pilih Foto Produk"}
+                  </label>
+
+                  {/* REAL FILE INPUT */}
 
                   <input
                     id="image"
                     type="file"
                     accept="image/jpeg,image/png,image/webp"
                     onChange={handleFileChange}
-                    className="block w-full text-sm"
+                    className="hidden"
                   />
 
-                  {selectedFile && (
-                    <p className="mt-3 text-xs text-gray-500">
-                      File: {selectedFile.name}
+                  {/* FILE INFO */}
+
+                  {selectedFile ? (
+                    <div className="mt-3 rounded-lg bg-[#E7EFE9] px-4 py-3">
+                      <p className="text-xs font-medium text-[#0B4F3F]">
+                        ✓ Foto siap digunakan
+                      </p>
+
+                      <p className="mt-1 truncate text-xs text-gray-500">
+                        {selectedFile.name}
+                      </p>
+                    </div>
+                  ) : (
+                    <p className="mt-3 text-center text-xs text-gray-400">
+                      JPG, PNG, atau WEBP · Maksimal 5 MB
                     </p>
                   )}
                 </div>

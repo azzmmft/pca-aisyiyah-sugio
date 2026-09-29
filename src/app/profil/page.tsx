@@ -26,7 +26,7 @@ export default function ProfilePage() {
           throw new Error("Gagal mengambil data profil");
         }
 
-        const data = await response.json();
+        const data = (await response.json()) as Record<string, any>;
 
         if (!data.success) {
           throw new Error(
@@ -203,63 +203,96 @@ export default function ProfilePage() {
               </div>
             </a>
 
-            <div className="rounded-2xl bg-white/60 p-6 opacity-70">
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[color:var(--gold-dark)]">
-                03
-              </p>
+            <a
+              href="/profil/struktur-organisasi"
+              className="group rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-5">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-[0.15em] text-[color:var(--gold-dark)]">
+                    03
+                  </p>
 
-              <h3 className="mt-2 font-display text-xl text-[color:var(--primary-dark)]">
-                Struktur Organisasi
-              </h3>
+                  <h3 className="mt-2 font-display text-xl text-[color:var(--primary-dark)]">
+                    Struktur Organisasi
+                  </h3>
 
-              <p className="mt-2 text-sm leading-6 text-[color:var(--ink)]/55">
-                Struktur organisasi PCA Aisyiyah Sugio.
-              </p>
+                  <p className="mt-2 text-sm leading-6 text-[color:var(--ink)]/55">
+                    Melihat struktur organisasi PCA Aisyiyah Sugio.
+                  </p>
+                </div>
 
-              <span className="mt-4 inline-block text-xs text-[color:var(--ink)]/40">
-                Segera hadir
-              </span>
-            </div>
+                <span className="text-lg text-[color:var(--primary)] transition group-hover:translate-x-1">
+                  →
+                </span>
+              </div>
+            </a>
 
-            <div className="rounded-2xl bg-white/60 p-6 opacity-70">
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[color:var(--gold-dark)]">
-                04
-              </p>
+            <a
+              href="/profil/kepengurusan"
+              className="group rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-5">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-[0.15em] text-[color:var(--gold-dark)]">
+                    04
+                  </p>
 
-              <h3 className="mt-2 font-display text-xl text-[color:var(--primary-dark)]">
-                Kepengurusan
-              </h3>
+                  <h3 className="mt-2 font-display text-xl text-[color:var(--primary-dark)]">
+                    Kepengurusan
+                  </h3>
 
-              <p className="mt-2 text-sm leading-6 text-[color:var(--ink)]/55">
-                Mengenal jajaran pengurus PCA Aisyiyah Sugio.
-              </p>
+                  <p className="mt-2 text-sm leading-6 text-[color:var(--ink)]/55">
+                    Mengenal jajaran pengurus PCA Aisyiyah Sugio.
+                  </p>
+                </div>
 
-              <span className="mt-4 inline-block text-xs text-[color:var(--ink)]/40">
-                Segera hadir
-              </span>
-            </div>
+                <span className="text-lg text-[color:var(--primary)] transition group-hover:translate-x-1">
+                  →
+                </span>
+              </div>
+            </a>
           </div>
 
-          <div className="mt-4">
-            <div className="rounded-2xl bg-white/60 p-6 opacity-70">
-              <p className="text-xs font-medium uppercase tracking-[0.15em] text-[color:var(--gold-dark)]">
-                05
-              </p>
+          <div className="mt-4 grid gap-4 md:grid-cols-2">
+            <a
+              href="/profil/ranting"
+              className="group rounded-2xl bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+            >
+              <div className="flex items-start justify-between gap-5">
+                <div>
+                  <p className="text-xs font-medium uppercase tracking-[0.15em] text-[color:var(--gold-dark)]">
+                    05  
+                  </p>
 
-              <h3 className="mt-2 font-display text-xl text-[color:var(--primary-dark)]">
-                Ranting
-              </h3>
+                  <h3 className="mt-2 font-display text-xl text-[color:var(--primary-dark)]">
+                    Ranting
+                  </h3>
 
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-[color:var(--ink)]/55">
-                Mengenal ranting-ranting Aisyiyah yang berada
-                dalam wilayah PCA Sugio.
-              </p>
+                  <p className="mt-2 max-w-2xl text-sm  text-[color:var(--ink)]/55">
+                    Mengenal ranting-ranting Aisyiyah yang berada
+                    dalam wilayah PCA Sugio.
+                  </p>
+                </div>
 
-              <span className="mt-4 inline-block text-xs text-[color:var(--ink)]/40">
-                Segera hadir
-              </span>
-            </div>
+                <span className="text-lg text-[color:var(--primary)] transition group-hover:translate-x-1">
+                  →
+                </span>
+              </div>
+            </a>  
           </div>
+        </div>
+      </section>
+      {/* Navigation */}
+      <section className="border-t border-[color:var(--primary)]/10 bg-[color:var(--sage)]/50 py-12">
+        <div className="mx-auto flex max-w-4xl flex-col gap-4 px-5 sm:flex-row sm:items-center sm:justify-between md:px-8">
+          <a
+            href="/"
+            className="text-sm font-medium text-[color:var(--primary)] transition hover:text-[color:var(--gold-dark)]"
+          >
+            ←  Kembali ke Beranda
+          </a>
+
         </div>
       </section>
     </main>

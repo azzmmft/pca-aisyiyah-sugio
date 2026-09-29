@@ -77,7 +77,7 @@ export async function PUT(request: Request) {
       );
     }
 
-    const body = await request.json();
+    const body = (await request.json()) as Record<string, any>;
 
     const title =
       typeof body.title === "string"

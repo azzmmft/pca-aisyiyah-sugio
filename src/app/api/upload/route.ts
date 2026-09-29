@@ -7,15 +7,17 @@ const ALLOWED_TYPES = [
   "image/webp",
 ];
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
-
 const ALLOWED_FOLDERS = [
   "products",
   "organization-structure",
   "organization-members",
   "activities",
   "gallery",
+  "branches",
+  "articles",
 ];
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export async function POST(request: Request) {
   try {
@@ -24,7 +26,14 @@ export async function POST(request: Request) {
     const formData = await request.formData();
 
     const file = formData.get("file");
-    const folderValue = formData.get("folder");
+
+    const requestedFolder = formData.get("folder");
+
+    const folder =
+      typeof requestedFolder === "string" &&
+      ALLOWED_FOLDERS.includes(requestedFolder)
+        ? requestedFolder
+        : "products";
 
     if (!(file instanceof File)) {
       return NextResponse.json(
@@ -55,12 +64,6 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
-
-    const folder =
-      typeof folderValue === "string" &&
-      ALLOWED_FOLDERS.includes(folderValue)
-        ? folderValue
-        : "products";
 
     const extension =
       file.type === "image/jpeg"

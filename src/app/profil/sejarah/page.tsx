@@ -29,7 +29,7 @@ export default function SejarahPage() {
           throw new Error("Gagal mengambil data sejarah");
         }
 
-        const data = await response.json();
+        const data = (await response.json()) as Record<string, any>;
 
         if (!data.success) {
           throw new Error(

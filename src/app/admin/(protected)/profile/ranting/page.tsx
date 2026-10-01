@@ -296,7 +296,7 @@ export default function RantingAdminPage() {
   }
 
   return (
-    <div className="max-w-6xl">
+    <div className="-ml-64 w-[calc(100%+16rem)] max-w-none p-4 pt-20 md:ml-0 md:w-auto md:max-w-6xl md:p-0">
       {/* HEADER */}
       <div className="mb-8">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-[color:var(--gold-dark)]">
@@ -499,12 +499,12 @@ export default function RantingAdminPage() {
         </div>
 
         {/* BUTTON */}
-        <div className="mt-7 flex justify-end gap-3">
+        <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-end">
           {editingId && (
             <button
               type="button"
               onClick={resetForm}
-              className="rounded-xl border border-[color:var(--primary)]/15 px-5 py-3 text-sm font-medium text-[color:var(--primary)] transition hover:bg-[color:var(--sage)]"
+              className="w-full rounded-xl border border-[color:var(--primary)]/15 px-5 py-3 text-sm font-medium text-[color:var(--primary)] transition hover:bg-[color:var(--sage)] sm:w-auto"
             >
               Batal
             </button>
@@ -513,7 +513,7 @@ export default function RantingAdminPage() {
           <button
             type="submit"
             disabled={saving || uploading}
-            className="rounded-xl bg-[color:var(--primary)] px-6 py-3 text-sm font-medium text-white transition hover:bg-[color:var(--primary-dark)] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-xl bg-[color:var(--primary)] px-6 py-3 text-sm font-medium text-white transition hover:bg-[color:var(--primary-dark)] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
           >
             {saving
               ? "Menyimpan..."

@@ -88,7 +88,7 @@ export default function ProductSection() {
       {/* Header Section dengan Subtle Glow Ambient */}
       <section 
       id="produk"
-      className="relative overflow-hidden bg-gradient-to-b from-[color:var(--sage)]/40 via-[color:var(--sage)]/20 to-transparent py-16 md:py-16">
+      className="relative overflow-hidden bg-gradient-to-b from-[color:var(--sage)]/40 via-[color:var(--sage)]/20 to-transparent py-10 md:py-10">
         <div className="relative mx-auto max-w-7xl px-5 md:px-8">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
             <div className="max-w-2xl">
@@ -138,7 +138,7 @@ export default function ProductSection() {
       </section>
 
       {/* Main Content Area */}
-      <section className="mx-auto max-w-7xl px-5 pt-12 md:px-8">
+      <section className="mx-auto max-w-7xl px-5 pt-5 md:px-8">
         
         {/* Carousel Header Controls (Panah Navigasi) */}
         {!loading && !error && filteredProducts.length > 0 && (

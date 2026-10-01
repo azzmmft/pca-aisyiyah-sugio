@@ -202,7 +202,7 @@ export default function ActivitySection() {
             {/* Navigation Controls */}
             {activities.length > visibleCols && (
               <div className="mt-8 flex items-center justify-between">
-                {/* Tombol Panah Kiri & Kanan (Sesuai Desain Product) */}
+                {/* Tombol Panah Kiri & Kanan  */}
                 <div className="flex items-center gap-2">
                   <button
                     type="button"

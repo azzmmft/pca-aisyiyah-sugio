@@ -170,7 +170,9 @@ export default function GallerySection() {
                       aria-label="Foto sebelumnya"
                       className="flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--primary)]/15 bg-white text-[color:var(--primary)] shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-[color:var(--primary)] hover:text-white"
                     >
-                      ←
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                      </svg>
                     </button>
 
                     <button
@@ -179,7 +181,9 @@ export default function GallerySection() {
                       aria-label="Foto berikutnya"
                       className="flex h-10 w-10 items-center justify-center rounded-full border border-[color:var(--primary)]/15 bg-white text-[color:var(--primary)] shadow-sm transition duration-300 hover:-translate-y-0.5 hover:bg-[color:var(--primary)] hover:text-white"
                     >
-                      →
+                      <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
                     </button>
                   </div>
 

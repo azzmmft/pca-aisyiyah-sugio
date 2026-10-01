@@ -82,10 +82,14 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="beranda"
-      className="hero-pattern hero-root relative overflow-hidden text-[color:var(--cream)]"
+      className="hero-bg hero-root relative overflow-hidden text-[color:var(--cream)]"
     >
       <style>{`
         .hero-root { --mx: 50%; --my: 35%; --px: 0; --py: 0; }
+
+        .hero-bg {
+          background: linear-gradient(to right, #1E6857, #122A52);
+        }
 
         .hero-spot {
           background: radial-gradient(520px circle at var(--mx) var(--my), rgba(198,138,46,.14), transparent 65%);

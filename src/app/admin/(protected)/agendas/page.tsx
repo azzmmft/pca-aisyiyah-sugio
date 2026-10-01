@@ -210,7 +210,7 @@ export default function AdminAgendasPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="-ml-64 w-[calc(100%+16rem)] p-4 pt-20 md:ml-0 md:w-auto md:p-8">
       {/* HEADER */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-[#082F26]">
@@ -237,7 +237,7 @@ export default function AdminAgendasPage() {
 
       {/* FORM */}
       <div className="mb-10 rounded-2xl bg-white p-6 shadow-sm">
-        <div className="mb-6 flex items-center justify-between">
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-xl font-semibold text-[#082F26]">
               {editingId

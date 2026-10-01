@@ -2,17 +2,19 @@
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 
-type GalleryItem = {
+type Activity = {
   id: number;
-  title: string | null;
-  image_url: string;
+  title: string;
+  description: string | null;
+  image_url: string | null;
   created_at: string;
 };
 
-export default function GalleryAdminPage() {
-  const [items, setItems] = useState<GalleryItem[]>([]);
+export default function ActivitiesAdminPage() {
+  const [activities, setActivities] = useState<Activity[]>([]);
 
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState("");
 
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -21,38 +23,40 @@ export default function GalleryAdminPage() {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
 
-  async function loadGallery() {
+  async function loadActivities() {
     try {
       setLoading(true);
 
-      const response = await fetch("/api/gallery");
+      const response = await fetch("/api/activities");
       const data = (await response.json()) as Record<string, any>;
 
       if (data.success) {
-        setItems(data.gallery);
+        setActivities(data.activities);
       }
     } catch (error) {
       console.error(error);
-      alert("Gagal mengambil data galeri");
+      alert("Gagal mengambil data kegiatan");
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    loadGallery();
+    loadActivities();
   }, []);
 
   function resetForm() {
     setTitle("");
+    setDescription("");
     setImageUrl("");
     setEditingId(null);
   }
 
-  function startEdit(item: GalleryItem) {
-    setEditingId(item.id);
-    setTitle(item.title || "");
-    setImageUrl(item.image_url);
+  function startEdit(activity: Activity) {
+    setEditingId(activity.id);
+    setTitle(activity.title);
+    setDescription(activity.description || "");
+    setImageUrl(activity.image_url || "");
 
     window.scrollTo({
       top: 0,
@@ -73,7 +77,7 @@ export default function GalleryAdminPage() {
       const formData = new FormData();
 
       formData.append("file", file);
-      formData.append("folder", "gallery");
+      formData.append("folder", "activities");
 
       const response = await fetch("/api/upload", {
         method: "POST",
@@ -101,6 +105,7 @@ export default function GalleryAdminPage() {
       );
     } finally {
       setUploading(false);
+
       event.target.value = "";
     }
   }
@@ -110,8 +115,8 @@ export default function GalleryAdminPage() {
   ) {
     event.preventDefault();
 
-    if (!imageUrl) {
-      alert("Foto wajib diupload");
+    if (!title.trim()) {
+      alert("Judul kegiatan wajib diisi");
       return;
     }
 
@@ -121,8 +126,8 @@ export default function GalleryAdminPage() {
       const method = editingId ? "PUT" : "POST";
 
       const url = editingId
-        ? `/api/gallery?id=${editingId}`
-        : "/api/gallery";
+        ? `/api/activities?id=${editingId}`
+        : "/api/activities";
 
       const response = await fetch(url, {
         method,
@@ -131,6 +136,7 @@ export default function GalleryAdminPage() {
         },
         body: JSON.stringify({
           title,
+          description,
           image_url: imageUrl,
         }),
       });
@@ -139,25 +145,25 @@ export default function GalleryAdminPage() {
 
       if (!response.ok || !data.success) {
         throw new Error(
-          data.error || "Gagal menyimpan foto"
+          data.error || "Gagal menyimpan kegiatan"
         );
       }
 
       alert(
         editingId
-          ? "Foto berhasil diperbarui"
-          : "Foto berhasil ditambahkan"
+          ? "Kegiatan berhasil diperbarui"
+          : "Kegiatan berhasil ditambahkan"
       );
 
       resetForm();
-      await loadGallery();
+      await loadActivities();
     } catch (error) {
       console.error(error);
 
       alert(
         error instanceof Error
           ? error.message
-          : "Gagal menyimpan foto"
+          : "Gagal menyimpan kegiatan"
       );
     } finally {
       setSaving(false);
@@ -166,14 +172,14 @@ export default function GalleryAdminPage() {
 
   async function handleDelete(id: number) {
     const confirmed = window.confirm(
-      "Yakin ingin menghapus foto ini dari galeri?"
+      "Yakin ingin menghapus kegiatan ini?"
     );
 
     if (!confirmed) return;
 
     try {
       const response = await fetch(
-        `/api/gallery?id=${id}`,
+        `/api/activities?id=${id}`,
         {
           method: "DELETE",
         }
@@ -183,57 +189,54 @@ export default function GalleryAdminPage() {
 
       if (!response.ok || !data.success) {
         throw new Error(
-          data.error || "Gagal menghapus foto"
+          data.error || "Gagal menghapus kegiatan"
         );
       }
 
-      alert("Foto berhasil dihapus");
+      alert("Kegiatan berhasil dihapus");
 
-      await loadGallery();
+      await loadActivities();
     } catch (error) {
       console.error(error);
 
       alert(
         error instanceof Error
           ? error.message
-          : "Gagal menghapus foto"
+          : "Gagal menghapus kegiatan"
       );
     }
   }
 
   return (
-    <main className="min-h-screen bg-[#F5F0E4] px-4 py-8 sm:px-6 lg:px-8">
+    <main className="-ml-64 min-h-screen w-[calc(100%+16rem)] bg-[#F5F0E4] px-4 pb-8 pt-20 sm:px-6 lg:px-8 md:ml-0 md:w-auto md:py-8">
       <div className="mx-auto max-w-6xl">
-
-        {/* HEADER */}
         <div className="mb-8">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#C68A2E]">
             Admin
           </p>
 
           <h1 className="mt-2 font-[family-name:var(--font-fraunces)] text-3xl font-semibold text-[#082F26]">
-            Galeri
+            Kegiatan
           </h1>
 
           <p className="mt-2 text-sm text-[#1C2620]/70">
-            Kelola dokumentasi foto kegiatan PCA Aisyiyah
-            Sugio.
+            Kelola kegiatan dan dokumentasi kegiatan PCA
+            Aisyiyah Sugio.
           </p>
         </div>
 
-        {/* FORM */}
         <section className="mb-10 rounded-3xl border border-[#0B4F3F]/10 bg-white p-6 shadow-sm">
           <div className="mb-6 flex items-center justify-between gap-4">
             <div>
               <h2 className="text-xl font-semibold text-[#082F26]">
                 {editingId
-                  ? "Edit Foto"
-                  : "Tambah Foto"}
+                  ? "Edit Kegiatan"
+                  : "Tambah Kegiatan"}
               </h2>
 
               <p className="mt-1 text-sm text-[#1C2620]/60">
-                Upload foto untuk ditampilkan pada galeri
-                website.
+                Isi informasi kegiatan yang ingin
+                ditampilkan di website.
               </p>
             </div>
 
@@ -254,7 +257,7 @@ export default function GalleryAdminPage() {
           >
             <div>
               <label className="mb-2 block text-sm font-semibold text-[#082F26]">
-                Judul / Keterangan
+                Judul Kegiatan
               </label>
 
               <input
@@ -263,14 +266,30 @@ export default function GalleryAdminPage() {
                 onChange={(event) =>
                   setTitle(event.target.value)
                 }
-                placeholder="Contoh: Pengajian Rutin Bulanan"
+                placeholder="Contoh: Pelatihan UMKM dan Pemasaran Digital"
                 className="w-full rounded-xl border border-[#0B4F3F]/15 px-4 py-3 text-sm outline-none transition focus:border-[#0B4F3F]"
               />
             </div>
 
             <div>
               <label className="mb-2 block text-sm font-semibold text-[#082F26]">
-                Foto
+                Deskripsi
+              </label>
+
+              <textarea
+                value={description}
+                onChange={(event) =>
+                  setDescription(event.target.value)
+                }
+                placeholder="Tuliskan deskripsi singkat kegiatan..."
+                rows={5}
+                className="w-full resize-none rounded-xl border border-[#0B4F3F]/15 px-4 py-3 text-sm outline-none transition focus:border-[#0B4F3F]"
+              />
+            </div>
+
+            <div>
+              <label className="mb-2 block text-sm font-semibold text-[#082F26]">
+                Foto Kegiatan
               </label>
 
               {/* CUSTOM FILE BUTTON */}
@@ -382,63 +401,74 @@ export default function GalleryAdminPage() {
                 ? "Menyimpan..."
                 : editingId
                   ? "Simpan Perubahan"
-                  : "Tambah ke Galeri"}
+                  : "Tambah Kegiatan"}
             </button>
           </form>
         </section>
 
-        {/* LIST */}
         <section>
-          <div className="mb-5">
-            <h2 className="text-xl font-semibold text-[#082F26]">
-              Daftar Foto
-            </h2>
+          <div className="mb-5 flex items-center justify-between">
+            <div>
+              <h2 className="text-xl font-semibold text-[#082F26]">
+                Daftar Kegiatan
+              </h2>
 
-            <p className="mt-1 text-sm text-[#1C2620]/60">
-              {items.length} foto
-            </p>
+              <p className="mt-1 text-sm text-[#1C2620]/60">
+                {activities.length} kegiatan
+              </p>
+            </div>
           </div>
 
           {loading ? (
             <div className="rounded-3xl bg-white p-10 text-center text-sm text-[#1C2620]/60">
-              Memuat galeri...
+              Memuat kegiatan...
             </div>
-          ) : items.length === 0 ? (
+          ) : activities.length === 0 ? (
             <div className="rounded-3xl border border-dashed border-[#0B4F3F]/20 bg-white p-10 text-center">
               <p className="font-semibold text-[#082F26]">
-                Belum ada foto
+                Belum ada kegiatan
               </p>
 
               <p className="mt-1 text-sm text-[#1C2620]/60">
-                Upload foto pertama menggunakan formulir
-                di atas.
+                Tambahkan kegiatan pertama menggunakan
+                formulir di atas.
               </p>
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {items.map((item) => (
+            <div className="grid gap-6 md:grid-cols-2">
+              {activities.map((activity) => (
                 <article
-                  key={item.id}
+                  key={activity.id}
                   className="overflow-hidden rounded-3xl bg-white shadow-sm"
                 >
-                  <img
-                    src={`/api/images/${item.image_url}`}
-                    alt={item.title || "Foto galeri"}
-                    className="aspect-[4/3] w-full object-cover"
-                  />
+                  {activity.image_url ? (
+                    <img
+                      src={`/api/images/${activity.image_url}`}
+                      alt={activity.title}
+                      className="h-52 w-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-52 items-center justify-center bg-[#E7EFE9] text-5xl">
+                      📷
+                    </div>
+                  )}
 
                   <div className="p-5">
-                    {item.title && (
-                      <h3 className="font-semibold text-[#082F26]">
-                        {item.title}
-                      </h3>
+                    <h3 className="text-lg font-semibold text-[#082F26]">
+                      {activity.title}
+                    </h3>
+
+                    {activity.description && (
+                      <p className="mt-2 line-clamp-3 text-sm leading-6 text-[#1C2620]/65">
+                        {activity.description}
+                      </p>
                     )}
 
-                    <div className="mt-4 flex gap-3">
+                    <div className="mt-5 flex gap-3">
                       <button
                         type="button"
                         onClick={() =>
-                          startEdit(item)
+                          startEdit(activity)
                         }
                         className="rounded-xl bg-[#E7EFE9] px-4 py-2 text-sm font-semibold text-[#0B4F3F]"
                       >
@@ -448,7 +478,7 @@ export default function GalleryAdminPage() {
                       <button
                         type="button"
                         onClick={() =>
-                          handleDelete(item.id)
+                          handleDelete(activity.id)
                         }
                         className="rounded-xl bg-red-50 px-4 py-2 text-sm font-semibold text-red-600"
                       >

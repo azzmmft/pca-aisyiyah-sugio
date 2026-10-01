@@ -117,7 +117,7 @@ export default function VisiMisiAdminPage() {
 
   if (loading) {
     return (
-      <div className=" max-w-4xl">
+      <div className="-ml-64 w-[calc(100%+16rem)] max-w-none p-4 pt-20 md:ml-0 md:w-auto md:max-w-4xl md:p-0">
         <div className="animate-pulse space-y-5">
           <div className="h-8 w-64 rounded bg-[color:var(--primary)]/10" />
           <div className="h-4 w-96 rounded bg-[color:var(--primary)]/10" />
@@ -129,7 +129,7 @@ export default function VisiMisiAdminPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="-ml-64 w-[calc(100%+16rem)] p-4 pt-20 md:ml-0 md:w-auto md:p-8">
       <div className="mb-8">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-[color:var(--gold-dark)]">
           Profil Organisasi
@@ -232,7 +232,7 @@ Tulis misi ketiga pada paragraf berikutnya.`}
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
           <a
             href="/profil/visi-misi"
             target="_blank"

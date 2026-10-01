@@ -47,24 +47,18 @@ export default function Footer() {
             <h2 className="font-display text-3xl text-[color:var(--cream)]">Bersama membangun masyarakat yang lebih maju.</h2>
 
             <p className="mt-4 max-w-md text-sm leading-relaxed text-[color:var(--cream)]/65">
-              Jl. Raya Sugio No. 12, Kecamatan Sugio, Kabupaten Lamongan, Jawa Timur. Terbuka untuk kerja sama, konsultasi produk, dan informasi kegiatan.
+              Kecamatan Sugio, Kabupaten Lamongan, Jawa Timur. Terbuka untuk kerja sama, konsultasi produk, dan informasi kegiatan.
             </p>
           </div>
 
-          <div className="rounded-[1.8rem] border border-white/10 bg-white/5 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.18)]">
+          
             <div className="flex flex-col gap-4 text-sm">
-              <a href="#" className="group flex items-center gap-3 text-[color:var(--cream)]/80 transition hover:text-[color:var(--gold)]">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
-                  <InstagramIcon />
-                </span>
-                Instagram — @aisyiyah.sugio
-              </a>
 
-              <a href="#" className="group flex items-center gap-3 text-[color:var(--cream)]/80 transition hover:text-[color:var(--gold)]">
+              <a href="https://www.tiktok.com/@pcasugio" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-3 text-[color:var(--cream)]/80 transition hover:text-[color:var(--gold)]">
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
                   <TiktokIcon />
                 </span>
-                TikTok — @aisyiyahsugio
+                TikTok — @pcasugio
               </a>
 
               <a href="#" className="group flex items-center gap-3 text-[color:var(--cream)]/80 transition hover:text-[color:var(--gold)]">
@@ -74,14 +68,8 @@ export default function Footer() {
                 WhatsApp — 0812-3456-7890
               </a>
 
-              <a href="#" className="group flex items-center gap-3 text-[color:var(--cream)]/80 transition hover:text-[color:var(--gold)]">
-                <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
-                  <EmailIcon />
-                </span>
-                Email — pca.sugio@aisyiyah.or.id
-              </a>
             </div>
-          </div>
+          
         </div>
 
         <div className="mt-10 border-t border-white/10 pt-6 text-xs text-[color:var(--cream)]/40">

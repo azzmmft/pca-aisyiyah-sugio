@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
-import AdminSidebar from "./component/AdminSidebar";
+import AdminSidebar from "../component/AdminSidebar";
 import { getCurrentAdmin } from "@/lib/auth";
 
-export default async function AdminLayout({
+export default async function ProtectedAdminLayout({
   children,
 }: {
   children: React.ReactNode;

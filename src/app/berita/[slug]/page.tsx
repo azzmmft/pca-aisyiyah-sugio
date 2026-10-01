@@ -126,10 +126,10 @@ export default async function ArticleDetailPage({
       <section className="px-6 pb-20">
         <div className="mx-auto max-w-3xl border-t border-[#0B4F3F]/10 pt-8">
           <Link
-            href="/berita"
+            href="/"
             className="inline-flex rounded-xl bg-[#0B4F3F] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#082F26]"
           >
-            ← Lihat Berita Lainnya
+            ← Kembali ke Beranda
           </Link>
         </div>
       </section>

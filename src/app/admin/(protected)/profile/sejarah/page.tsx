@@ -123,7 +123,7 @@ export default function AdminSejarahPage() {
 
   if (loading) {
     return (
-      <div className="p-8">
+      <div className="-ml-64 w-[calc(100%+16rem)] p-4 pt-20 md:ml-0 md:w-auto md:p-8">
         <div className="mb-8">
           <div className="h-4 w-24 animate-pulse rounded bg-gray-200" />
           <div className="mt-3 h-10 w-48 animate-pulse rounded bg-gray-200" />
@@ -136,7 +136,7 @@ export default function AdminSejarahPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="-ml-64 w-[calc(100%+16rem)] p-4 pt-20 md:ml-0 md:w-auto md:p-8">
       <div className="mb-8">
         <p className="text-sm font-medium text-[#C68A2E]">
           ORGANISASI

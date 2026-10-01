@@ -23,6 +23,10 @@ const emptyForm: ProductForm = {
   description: "",
 };
 
+function getImageUrl(key: string | null) {
+  return key ? `/api/images/${key}` : "";
+}
+
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [form, setForm] = useState<ProductForm>(emptyForm);
@@ -169,12 +173,7 @@ export default function AdminProductsPage() {
 
     setSelectedFile(null);
 
-    /*
-      Untuk sementara image_url berisi R2 object key,
-      bukan URL publik. Jadi foto lama belum kita
-      tampilkan di preview sampai public URL R2 dibuat.
-    */
-    setPreviewUrl(null);
+    setPreviewUrl(getImageUrl(product.image_url));
 
     setMessage("");
     setError("");
@@ -380,7 +379,7 @@ export default function AdminProductsPage() {
   // ========================================
 
   return (
-    <main className="min-h-screen bg-[#F5F0E4] px-4 py-8 text-[#1C2620] md:px-8">
+    <main className="-ml-64 min-h-screen w-[calc(100%+16rem)] bg-[#F5F0E4] px-4 pb-8 pt-20 text-[#1C2620] md:ml-0 md:w-auto md:px-8 md:py-8">
       <div className="mx-auto max-w-6xl">
 
         {/* HEADER */}
@@ -689,7 +688,22 @@ export default function AdminProductsPage() {
 
                   {/* INFO */}
 
-                  <div className="min-w-0">
+                  <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-center">
+                    <div className="h-36 w-full shrink-0 overflow-hidden rounded-xl bg-[#E7EFE9] md:h-20 md:w-28">
+                      {product.image_url ? (
+                        <img
+                          src={getImageUrl(product.image_url)}
+                          alt={`Foto ${product.name}`}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="flex h-full items-center justify-center px-3 text-center text-xs text-gray-500">
+                          Belum ada foto
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="min-w-0">
 
                     <h3 className="font-bold text-[#082F26]">
                       {product.name}
@@ -705,12 +719,7 @@ export default function AdminProductsPage() {
                       </p>
                     )}
 
-                    {product.image_url && (
-                      <p className="mt-2 text-xs text-gray-400">
-                        ✓ Foto tersimpan
-                      </p>
-                    )}
-
+                    </div>
                   </div>
 
                   {/* ACTION */}

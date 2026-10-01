@@ -301,7 +301,7 @@ export default function ArticlesAdminPage() {
   }
 
   return (
-    <main className="min-h-screen bg-[#F5F0E4] px-4 py-8 md:px-8">
+    <main className="-ml-64 min-h-screen w-[calc(100%+16rem)] bg-[#F5F0E4] px-4 pb-8 pt-20 md:ml-0 md:w-auto md:px-8 md:py-8">
       <div className="mx-auto max-w-7xl space-y-8">
         {/* HEADER */}
         <div>

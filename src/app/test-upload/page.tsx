@@ -50,7 +50,7 @@ export default function TestUploadPage() {
       <div className="mx-auto max-w-xl rounded-2xl bg-white p-8 shadow-sm">
 
         <p className="mb-2 text-sm font-semibold uppercase tracking-widest text-[#C68A2E]">
-          R2 Test
+          Cloudinary Test
         </p>
 
         <h1 className="mb-6 text-2xl font-bold text-[#082F26]">
@@ -89,7 +89,7 @@ export default function TestUploadPage() {
           disabled={!file || loading}
           className="w-full rounded-xl bg-[#0B4F3F] px-5 py-3 font-semibold text-white transition hover:bg-[#082F26] disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loading ? "Mengupload..." : "Upload ke R2"}
+          {loading ? "Mengupload..." : "Upload ke Cloudinary"}
         </button>
 
         {result && (

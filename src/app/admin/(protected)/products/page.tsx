@@ -204,7 +204,7 @@ export default function AdminProductsPage() {
   }
 
   // ========================================
-  // UPLOAD FOTO KE R2
+  // UPLOAD FOTO KE CLOUDINARY
   // ========================================
 
   async function uploadImage(): Promise<string | null> {
@@ -255,7 +255,7 @@ export default function AdminProductsPage() {
 
       /*
         1. Upload foto terlebih dahulu
-        2. Dapatkan R2 object key
+        2. Dapatkan Cloudinary key
       */
 
       const uploadedImageKey = await uploadImage();

@@ -39,6 +39,10 @@ const menuItems = [
 
 const profileItems = [
   {
+    label: "Tentang",
+    href: "/admin/profile",
+  },
+  {
     label: "Sejarah",
     href: "/admin/profile/sejarah",
   },

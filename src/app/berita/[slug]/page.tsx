@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 
 type Article = {
   id: number;
@@ -9,6 +10,7 @@ type Article = {
   content: string;
   image_url: string | null;
   published_at: string | null;
+  status: string;
 };
 
 function getImageUrl(key: string | null) {
@@ -27,36 +29,31 @@ function formatDate(date: string | null) {
 }
 
 async function getArticle(slug: string): Promise<Article | null> {
-  try {
-    const baseUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const { env } = await getCloudflareContext({ async: true });
 
-    const response = await fetch(
-      `${baseUrl}/api/articles/${encodeURIComponent(slug)}`,
-      {
-        cache: "no-store",
-      }
-    );
+  const article = await env.pca_aisyiyah_sugio_db
+    .prepare(
+      `SELECT
+        id,
+        title,
+        slug,
+        excerpt,
+        content,
+        image_url,
+        published_at,
+        status
+      FROM articles
+      WHERE slug = ?
+      LIMIT 1`
+    )
+    .bind(slug)
+    .first<Article>();
 
-    if (!response.ok) {
-      return null;
-    }
-
-    const data = (await response.json()) as Record<string, any>;
-
-    if (!data.success || !data.article) {
-      return null;
-    }
-
-    if (data.article.status !== "published") {
-      return null;
-    }
-
-    return data.article;
-  } catch (error) {
-    console.error(error);
+  if (!article || article.status !== "published") {
     return null;
   }
+
+  return article;
 }
 
 export default async function ArticleDetailPage({

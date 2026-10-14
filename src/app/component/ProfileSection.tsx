@@ -37,8 +37,8 @@ const PILLARS = [
 ];
 
 const STATS = [
-  { value: "12+", label: "Ranting Aisyiyah" },
-  { value: "500+", label: "Anggota Aktif" },
+  { value: "30", label: "Ranting Aisyiyah" },
+  { value: "200+", label: "Anggota Aktif" },
   { value: "20+", label: "UMKM Binaan" },
 ];
 

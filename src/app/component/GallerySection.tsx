@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 type GalleryItem = {
@@ -14,6 +14,9 @@ export default function GallerySection() {
   const [gallery, setGallery] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const suppressClick = useRef(false);
 
   const fetchGallery = useCallback(async () => {
     try {
@@ -35,14 +38,14 @@ export default function GallerySection() {
   }, [fetchGallery]);
 
   useEffect(() => {
-    if (gallery.length <= 1) return;
+    if (gallery.length <= 1 || isDragging) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % gallery.length);
     }, 4000);
 
     return () => clearInterval(interval);
-  }, [gallery.length]);
+  }, [gallery.length, currentIndex, isDragging]);
 
   const nextSlide = () => {
     if (gallery.length === 0) return;
@@ -53,6 +56,46 @@ export default function GallerySection() {
     if (gallery.length === 0) return;
     setCurrentIndex((prev) => (prev - 1 + gallery.length) % gallery.length);
   };
+
+  function handleTouchStart(event: React.TouchEvent<HTMLDivElement>) {
+    const touch = event.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+    setIsDragging(true);
+  }
+
+  function handleTouchEnd(event: React.TouchEvent<HTMLDivElement>) {
+    const start = touchStart.current;
+    touchStart.current = null;
+    setIsDragging(false);
+
+    if (!start) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+    suppressClick.current = true;
+    window.setTimeout(() => {
+      suppressClick.current = false;
+    }, 0);
+
+    if (deltaX < 0) nextSlide();
+    if (deltaX > 0) prevSlide();
+  }
+
+  function handleTouchCancel() {
+    touchStart.current = null;
+    setIsDragging(false);
+  }
+
+  function handleClickCapture(event: React.MouseEvent<HTMLDivElement>) {
+    if (!suppressClick.current) return;
+    event.preventDefault();
+    event.stopPropagation();
+    suppressClick.current = false;
+  }
 
   const getVisibleItems = () => {
     if (gallery.length === 0) return [];
@@ -116,7 +159,13 @@ export default function GallerySection() {
 
         {!loading && gallery.length > 0 && (
           <>
-            <div className="relative">
+            <div
+              className="relative touch-pan-y"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchCancel}
+              onClickCapture={handleClickCapture}
+            >
               <div className="hidden gap-5 sm:grid sm:grid-cols-2 md:grid-cols-3">
                 {visibleItems.map((item) => (
                   <div key={`${item.id}-${currentIndex}`} className="group overflow-hidden rounded-[1.6rem] bg-white shadow-[0_20px_40px_rgba(11,79,63,0.07)]">

@@ -39,7 +39,7 @@ function Magnetic({
   );
 }
 
-const TITLE = "Selamat datang di PCA Aisyiyah Sugio".split(" ");
+const TITLE = "Selamat datang di Pimpinan Cabang Aisyiyah Sugio".split(" ");
 const LOGO = "/images/logo-putih.png";
 
 export default function Hero() {
@@ -183,7 +183,7 @@ export default function Hero() {
         </p>
 
         <h1
-          aria-label="Selamat datang di PCA Aisyiyah Sugio"
+          aria-label="Selamat datang di Laman Pimpinan Cabang Aisyiyah Sugio"
           className="max-w-3xl font-display text-4xl font-medium leading-[1.02] text-[color:var(--cream)] sm:text-5xl md:text-6xl"
         >
           {TITLE.map((w, i) => (

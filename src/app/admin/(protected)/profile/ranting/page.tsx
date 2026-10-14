@@ -296,7 +296,7 @@ export default function RantingAdminPage() {
   }
 
   return (
-    <div className="-ml-64 w-[calc(100%+16rem)] max-w-none p-4 pt-20 md:ml-0 md:w-auto md:max-w-6xl md:p-0">
+    <div className="-ml-64 w-[calc(100%+16rem)] max-w-none p-4 pt-20 md:ml-0 md:w-auto md:max-w-6xl md:p-8">
       {/* HEADER */}
       <div className="mb-8">
         <p className="text-xs font-medium uppercase tracking-[0.2em] text-[color:var(--gold-dark)]">

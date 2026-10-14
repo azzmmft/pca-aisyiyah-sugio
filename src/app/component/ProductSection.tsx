@@ -308,7 +308,7 @@ export default function ProductSection() {
                 {/* Card Action Button (Order via WhatsApp / Detail) */}
                 <div className="mt-5 pt-3 border-t border-black/5">
                   <a
-                    href={`https://wa.me/085815144218?text=${encodeURIComponent(
+                    href={`https://wa.me/6285739042261?text=${encodeURIComponent(
                       `Halo PCA Aisyiyah Sugio, saya tertarik dengan produk ${product.name}`
                     )}`}
                     target="_blank"

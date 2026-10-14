@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 type Activity = {
@@ -16,6 +16,8 @@ export default function ActivitySection() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
   const [visibleCols, setVisibleCols] = useState(3); // Default desktop: 3 cols
+  const [isDragging, setIsDragging] = useState(false);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   useEffect(() => {
     async function loadActivities() {
@@ -59,29 +61,49 @@ export default function ActivitySection() {
 
   // Auto-play interval
   useEffect(() => {
-    if (activities.length <= visibleCols) return;
+    if (activities.length <= visibleCols || isDragging) return;
 
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
     }, 4500);
 
     return () => clearInterval(interval);
-  }, [activities.length, visibleCols, maxIndex]);
+  }, [activities.length, visibleCols, maxIndex, currentIndex, isDragging]);
 
   function nextSlide() {
-    if (canScrollRight) {
-      setCurrentIndex((prev) => prev + 1);
-    } else {
-      setCurrentIndex(0); // Reset ke awal jika tombol ditekan di ujung
-    }
+    setCurrentIndex((prev) => Math.min(prev + 1, maxIndex));
   }
 
   function previousSlide() {
-    if (canScrollLeft) {
-      setCurrentIndex((prev) => prev - 1);
-    } else {
-      setCurrentIndex(maxIndex); // Ke ujung jika tombol ditekan di awal
-    }
+    setCurrentIndex((prev) => Math.max(prev - 1, 0));
+  }
+
+  function handleTouchStart(event: React.TouchEvent<HTMLDivElement>) {
+    const touch = event.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+    setIsDragging(true);
+  }
+
+  function handleTouchEnd(event: React.TouchEvent<HTMLDivElement>) {
+    const start = touchStart.current;
+    touchStart.current = null;
+    setIsDragging(false);
+
+    if (!start) return;
+
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - start.x;
+    const deltaY = touch.clientY - start.y;
+
+    if (Math.abs(deltaX) < 40 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+
+    if (deltaX < 0 && canScrollRight) nextSlide();
+    if (deltaX > 0 && canScrollLeft) previousSlide();
+  }
+
+  function handleTouchCancel() {
+    touchStart.current = null;
+    setIsDragging(false);
   }
 
   return (
@@ -133,7 +155,12 @@ export default function ActivitySection() {
         {/* Carousel Content */}
         {!loading && activities.length > 0 && (
           <div className="relative">
-            <div className="overflow-hidden rounded-2xl">
+            <div
+              className="overflow-hidden rounded-2xl touch-pan-y"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+              onTouchCancel={handleTouchCancel}
+            >
               <div
                 className="flex transition-transform duration-500 ease-out"
                 style={{

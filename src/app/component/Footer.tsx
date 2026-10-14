@@ -65,7 +65,7 @@ export default function Footer() {
                 <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5">
                   <WhatsappIcon />
                 </span>
-                WhatsApp — 0812-3456-7890
+                WhatsApp — 0857-3904-2261
               </a>
 
             </div>
